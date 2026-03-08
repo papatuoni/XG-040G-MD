@@ -10,9 +10,6 @@ echo 'src-git QModem https://github.com/FUjr/QModem' >> feeds.conf.default
 # OpenClash
 git clone --depth 1 https://github.com/vernesong/OpenClash.git OpenClash
 
-# packages
-sed -i 's|src-git packages https://github.com/immortalwrt/packages[^;]*;openwrt-25\.12|src-git packages https://github.com/openwrt/packages;master|' feeds.conf.default
-
 # temp
 git clone https://github.com/lkiuyu/luci-app-cpu-perf package/luci-app-cpu-perf
 git clone https://github.com/lkiuyu/luci-app-cpu-status package/luci-app-cpu-status

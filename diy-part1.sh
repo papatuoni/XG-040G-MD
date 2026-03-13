@@ -22,8 +22,8 @@
 # echo 'src-git small https://github.com/kenzok8/small' >>feeds.conf.default
 
 # hlk7628n dts
-mkdir -p openwrt/target/linux/ramips/dts/
-cp -f dts/mt7628an_hilink_hlk-7628n.dts openwrt/target/linux/ramips/dts/mt7628an_hilink_hlk-7628n.dts
+mkdir -p target/linux/ramips/dts/
+cp -f "$GITHUB_WORKSPACE/dts/mt7628an_hilink_hlk-7628n.dts" target/linux/ramips/dts/mt7628an_hilink_hlk-7628n.dts
 
 
 # turboacc

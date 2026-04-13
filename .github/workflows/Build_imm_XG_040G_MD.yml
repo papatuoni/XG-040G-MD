@@ -57,7 +57,7 @@ jobs:
       run: |
         df -H
     
-    - name: @
+    - name: imm_open
       run: |
         if [[ "${{ github.event.inputs.source_select }}" == "bingoguo93" ]]; then
            echo "REPO_URL=https://github.com/bingoguo93/immortalwrt" >> $GITHUB_ENV

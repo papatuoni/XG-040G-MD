@@ -68,6 +68,8 @@ jobs:
          echo "REPO_BRANCH=master" >> $GITHUB_ENV
        fi
        echo "CONFIG_FILE=config/040.config" >> $GITHUB_ENV
+       # 检查分支是否存在
+       git ls-remote --heads "$REPO_URL" | grep "$REPO_BRANCH" || echo "❌ Branch $REPO_BRANCH NOT FOUND"
 
     - name: Initialization environment
       id: init

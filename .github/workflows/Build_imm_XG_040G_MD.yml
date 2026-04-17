@@ -61,7 +61,7 @@ jobs:
     - name: set_branch_env
       run: |
        echo "source_select = ${{ github.event.inputs.source_select }}"
-       echo "REPO_URL=https://github.com/bingoguo93/immortalwrt" >> $GITHUB_ENV
+       echo "REPO_URL=https://github.com/xiangtailiang/openwrt.git" >> $GITHUB_ENV
        if [[ "${{ github.event.inputs.source_select }}" == "openwrt-25.12" ]]; then
          echo "REPO_BRANCH=openwrt-25.12" >> $GITHUB_ENV
         else
@@ -111,7 +111,7 @@ jobs:
       id: codes
       if: steps.init.outputs.status == 'success' && success()
       run: |
-        git clone "$REPO_URL" -b "$REPO_BRANCH" openwrt
+        git clone --depth 1 "$REPO_URL" -b "$REPO_BRANCH" openwrt
         cd openwrt
         git pull origin "$REPO_BRANCH"
         git log --oneline -1
@@ -127,6 +127,7 @@ jobs:
       run: |
         sudo mkdir -p /mnt/openwrt/{dl,staging_dir,build_dir}
         sudo chown -R $USER:$GROUPS /mnt/openwrt
+        rm -rf openwrt/dl openwrt/staging_dir openwrt/build_dir
         ln -sfn /mnt/openwrt/dl openwrt/dl
         ln -sfn /mnt/openwrt/staging_dir openwrt/staging_dir
         ln -sfn /mnt/openwrt/build_dir openwrt/build_dir

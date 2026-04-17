@@ -116,9 +116,9 @@ jobs:
         git log --oneline -1
         cd ..
         if [ -n "$GITHUB_OUTPUT" ]; then
-          echo "status=success" >> "$GITHUB_OUTPUT"
+            echo "status=success" >> "$GITHUB_OUTPUT"
         else
-          echo "::set-output name=status::success"
+            echo "::set-output name=status::success"
         fi
         
     - name: Free up disk space

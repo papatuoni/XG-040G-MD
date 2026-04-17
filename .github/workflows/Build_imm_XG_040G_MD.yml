@@ -110,7 +110,21 @@ jobs:
       id: codes
       if: steps.init.outputs.status == 'success' && success()
       run: |
+        set -e  # 关键：任何命令失败立即退出
+        echo "Cloning $REPO_URL branch $REPO_BRANCH"
+        # 检查分支是否存在（避免无效分支）
+        if ! git ls-remote --heads "$REPO_URL" | grep -q "refs/heads/$REPO_BRANCH"; then
+          echo "❌ ERROR: Branch '$REPO_BRANCH' does not exist in $REPO_URL"
+          exit 1
+        fi
+        
         git clone "$REPO_URL" -b "$REPO_BRANCH" openwrt
+        # 再次确认 openwrt 目录存在
+        if [ ! -d "openwrt" ]; then
+          echo "❌ ERROR: openwrt directory was not created after clone"
+          exit 1
+        fi
+        
         cd openwrt
         git pull origin "$REPO_BRANCH"
         git log --oneline -1
@@ -125,6 +139,10 @@ jobs:
       run: |
         sudo mkdir -p /mnt/openwrt/{dl,staging_dir,build_dir}
         sudo chown -R $USER:$GROUPS /mnt/openwrt
+        # 关键：删除已存在的 openwrt/dl 目录（否则 ln 会失败）
+        rm -rf openwrt/dl
+        rm -rf openwrt/staging_dir
+        rm -rf openwrt/build_dir
         ln -sfn /mnt/openwrt/dl openwrt/dl
         ln -sfn /mnt/openwrt/staging_dir openwrt/staging_dir
         ln -sfn /mnt/openwrt/build_dir openwrt/build_dir

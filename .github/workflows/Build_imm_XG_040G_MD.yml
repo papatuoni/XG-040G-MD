@@ -108,34 +108,12 @@ jobs:
        python3 -m pip --version
        python3 -c "import setuptools.build_meta; print('setuptools.build_meta OK')"
         
-    - name: Clone source code
-      id: codes
-      if: steps.init.outputs.status == 'success' && success()
+    
+    - name: Clone OpenWrt source code (openwrt-25.12)
       run: |
-        set -e  # 关键：任何命令失败立即退出
-        echo "Cloning $REPO_URL branch $REPO_BRANCH"
-        # 检查分支是否存在（避免无效分支）
-        if ! git ls-remote --heads "$REPO_URL" | grep -q "refs/heads/$REPO_BRANCH"; then
-          echo "❌ ERROR: Branch '$REPO_BRANCH' does not exist in $REPO_URL"
-          exit 1
-        fi
-        
-        git clone --depth 1 "$REPO_URL" -b "$REPO_BRANCH" openwrt
-        # 再次确认 openwrt 目录存在
-        if [ ! -d "openwrt" ]; then
-          echo "❌ ERROR: openwrt directory was not created after clone"
-          exit 1
-        fi
-        
-        cd openwrt
-        git pull origin "$REPO_BRANCH"
-        git log --oneline -1
-        cd ..
-        if [ -n "$GITHUB_OUTPUT" ]; then
-            echo "status=success" >> "$GITHUB_OUTPUT"
-        else
-            echo "::set-output name=status::success"
-        fi
+        git clone --depth 1 --branch "$REPO_BRANCH" "$REPO_URL" openwrt
+    
+            
         
     - name: Free up disk space
       run: |

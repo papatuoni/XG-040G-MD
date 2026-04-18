@@ -20,12 +20,12 @@ on:
       patch_type:
         description: "选择补丁版本"
         required: true
-        default: "patch-master"
+        default: "patch-25.12.0-rc2"
         type: choice
         options:
+          - patch-25.12.0-rc2
           - patch-bingoguo93-25.12
           - patch-xiangtailiang-25.12
-          - patch-25.12.0-rc2
           - patch-master
 
 

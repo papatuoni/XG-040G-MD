@@ -60,18 +60,19 @@ jobs:
             echo "IS_TAG=true" >> $GITHUB_ENV
             echo "IS_MASTER_PATCH=false" >> $GITHUB_ENV
          elif [[ "${{ github.event.inputs.patch_type }}" == "patch-bingoguo93-25.12" ]]; then
-            echo "REPO_REF=openwrt-25.12" >> $GITHUB_ENV
-            echo "IS_TAG=false" >> $GITHUB_ENV
-            echo "IS_MASTER_PATCH=false" >> $GITHUB_ENV
+           echo "REPO_REF=openwrt-25.12" >> $GITHUB_ENV
+           echo "IS_TAG=false" >> $GITHUB_ENV
+           echo "IS_MASTER_PATCH=false" >> $GITHUB_ENV
          elif [[ "${{ github.event.inputs.patch_type }}" == "patch-xiangtailiang-25.12" ]]; then
-            echo "REPO_REF=openwrt-25.12" >> $GITHUB_ENV
-            echo "IS_TAG=false" >> $GITHUB_ENV
-            echo "IS_MASTER_PATCH=false" >> $GITHUB_ENV
+           echo "REPO_REF=openwrt-25.12" >> $GITHUB_ENV
+           echo "IS_TAG=false" >> $GITHUB_ENV
+           echo "IS_MASTER_PATCH=false" >> $GITHUB_ENV
          else
-            echo "REPO_REF=${{ env.REPO_BRANCH }}" >> $GITHUB_ENV
-            echo "IS_TAG=false" >> $GITHUB_ENV
-            echo "IS_MASTER_PATCH=false" >> $GITHUB_ENV
+           echo "REPO_REF=openwrt-25.12" >> $GITHUB_ENV
+           echo "IS_TAG=false" >> $GITHUB_ENV
+           echo "IS_MASTER_PATCH=false" >> $GITHUB_ENV
          fi
+
 
 
 

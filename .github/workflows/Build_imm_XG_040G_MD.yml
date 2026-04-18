@@ -105,7 +105,12 @@ jobs:
        python3 -m pip install Unidecode pyelftools
        python3 -m pip --version
        python3 -c "import setuptools.build_meta; print('setuptools.build_meta OK')"
-        
+       
+    - name: Debug clone condition
+      run: |
+        echo "steps.init.outputs.status = ${{ steps.init.outputs.status }}"
+        echo "success() = ${{ success() }}"
+    
         
     - name: Clone source code
       id: codes

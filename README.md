@@ -80,6 +80,11 @@ ssh推送刷机命令参考！！！
 
 ![7628N模块](https://raw.githubusercontent.com/xuxin1955/Actions-immortalwrt/main/pics/Screenshot_2026-04-21-00-24-09-14_9e8df3d0c7c1f50248b6ee043a653d26.jpg)
 
+
+命令推送刷机后，保持模块供电稳定切勿断电，等模块灯闪后即可！！！
+
+
+
 ## Credits
 
 - [Microsoft Azure](https://azure.microsoft.com)

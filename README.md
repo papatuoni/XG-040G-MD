@@ -85,9 +85,8 @@ ssh推送刷机命令参考！！！
 
 
 
- [![](     https://github.com/xuxin1955/Actions-immortalwrt/blob/main/pics/Screenshot_2026-04-21-23-23-34-09_9e8df3d0c7c1f50248b6ee043a653d26.jpg
-     ```
-)](https://github.com/xuxin1955/Actions-immortalwrt/blob/main/pics/RYLink-7628N%20datasheet%20v2.0.pdf)
+**RYLink-7628N Datasheet v2.0**  
+👉 [点击查看 PDF](https://github.com/xuxin1955/Actions-immortalwrt/blob/main/pics/RYLink-7628N%20datasheet%20v2.0.pdf)
 
 
 ## Credits

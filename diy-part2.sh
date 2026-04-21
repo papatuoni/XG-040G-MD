@@ -17,5 +17,3 @@ git clone https://github.com/lkiuyu/luci-app-temp-status package/luci-app-temp-s
 # DbusSmsForwardCPlus
 git clone https://github.com/lkiuyu/DbusSmsForwardCPlus package/DbusSmsForwardCPlus
 
-# mode LTE
-git clone https://github.com/koshev-msk/modemfeed package/modemfeed

@@ -141,22 +141,25 @@ jobs:
 
 
 
-      - name: Apply XG-040G-MD Patch Files
+      - name: Apply Patch
         working-directory: ./openwrt
         run: |
-         SELECTED_PATCH="${{ github.event.inputs.patch_type }}"
-         echo "SELECTED_PATCH=$SELECTED_PATCH" >> $GITHUB_ENV
-    
-         if [ -d "../$SELECTED_PATCH" ] && [ -f "../$SELECTED_PATCH/patch.sh" ]; then
-            echo "--- 正在应用补丁：$SELECTED_PATCH ---"
-            cp -r -f ../$SELECTED_PATCH .
-            chmod +x $SELECTED_PATCH/patch.sh
-            cd $SELECTED_PATCH && ./patch.sh
-            echo "--- 补丁应用成功 ---"
-         else
-            echo "错误: 未找到 $SELECTED_PATCH 补丁目录或脚本！"
-            exit 1
-         fi
+          SELECTED_PATCH="${{ github.event.inputs.patch_type }}"
+          echo "SELECTED_PATCH=$SELECTED_PATCH" >> $GITHUB_ENV
+
+          PATCH_DIR="../scripts/$SELECTED_PATCH"
+
+          if [ -d "$PATCH_DIR" ] && [ -f "$PATCH_DIR/patch.sh" ]; then
+              echo "--- 正在应用补丁：$SELECTED_PATCH ---"
+              cp -r -f "$PATCH_DIR" .
+              chmod +x "$SELECTED_PATCH/patch.sh"
+              cd "$SELECTED_PATCH" && ./patch.sh
+              echo "--- 补丁应用成功 ---"
+          else
+              echo "错误: 未找到 $PATCH_DIR 补丁目录或脚本！"
+              exit 1
+          fi
+
 
       - name: Free up disk space
         run: |
@@ -167,7 +170,7 @@ jobs:
           ln -sfn /mnt/openwrt/build_dir openwrt/build_dir
           df -H
 
-      - name: Load custom feeds
+      - name: Load custom DIY_P4_SH
         run: |
           [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
           chmod +x $DIY_P4_SH

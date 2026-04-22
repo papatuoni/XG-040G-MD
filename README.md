@@ -13,6 +13,12 @@
 7628N模块
 ![7628N模块](https://raw.githubusercontent.com/xuxin1955/Actions-immortalwrt/main/pics/GIF_20260417_073543.gif)
 
+## HLK-7628N 模块底座 PCB
+- 开源地址 1：[点击查看](https://oshwhub.com/w1239101315/project_opuesebx)
+- 开源地址 2：[点击查看](https://oshwhub.com/pang94/project_eawoqvux)
+
+
+
 7628N刷机命令 自己按照自己固件名字 ip地址 对应修正！！！
 
 

@@ -8,11 +8,6 @@
 	compatible = "compex,wpj531-16m", "qca,qca9531";
 	model = "Compex WPJ531 (16MB flash)";
 
-	memory@0 {
-		device_type = "memory";
-		reg = <0x0 0x0>;
-	};
-
 	aliases {
 		label-mac-device = &eth0;
 		led-boot = &led_system;
@@ -64,7 +59,7 @@
 			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
 		};
 
-		sig4 {
+		led_sig4: sig4 {
 			label = "green:sig4";
 			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
 		};
@@ -84,7 +79,7 @@
 			#address-cells = <1>;
 			#size-cells = <1>;
 
-			partition@0 {
+			uboot: partition@0 {
 				label = "u-boot";
 				reg = <0x000000 0x030000>;
 				read-only;

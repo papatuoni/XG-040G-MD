@@ -181,24 +181,7 @@ jobs:
     - name: make defconfig
       run: |
         cd openwrt
-
-        cp .config .config.before 2>/dev/null || touch .config.before
-
         make defconfig V=s
-
-        echo "::group::📋 defconfig 实际变更"
-        echo "======================================================================================"
-        diff .config.before .config || echo "（无变更）"
-        echo "======================================================================================"
-        echo "::endgroup::"
-
-        echo "::group::📦 当前 .config 已启用包列表"
-        echo "======================================================================================"
-        grep "^CONFIG_PACKAGE_.*=y" .config | sed 's/CONFIG_PACKAGE_//;s/=y//' | sort
-        echo "======================================================================================"
-        echo "总计: $(grep -c '^CONFIG_PACKAGE_.*=y' .config) 个包"
-        echo "::endgroup::"
-
 
        
     - name: 查看 openwrt 目录

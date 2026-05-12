@@ -280,7 +280,9 @@ jobs:
         echo -e "$(nproc) thread compile"
 
         export CCACHE_DIR=$HOME/.ccache
+        export CCACHE_MAXSIZE=10G
         export CCACHE_BASEDIR=$PWD
+        mkdir -p $CCACHE_DIR
 
         set +e
         make -j$(nproc) CC="ccache gcc" CXX="ccache g++"

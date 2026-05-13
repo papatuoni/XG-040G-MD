@@ -51,21 +51,14 @@ jobs:
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
         with:
-          tool-cache: true
-          android: true
-          dotnet: true
-          haskell: true
+          tool-cache: false
+          android: false
+          dotnet: false
+          haskell: false
           large-packages: false
           docker-images: false
-          swap-storage: true
+          swap-storage: false
         
-      - name: Manual Setup Swap
-        run: |
-          sudo fallocate -l 8G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=8192
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
-          free -h        
 
       - name: Set dynamic branch and config
         id: dynamic_config

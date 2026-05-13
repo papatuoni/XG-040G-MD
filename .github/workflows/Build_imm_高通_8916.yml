@@ -1,4 +1,4 @@
-name: Build_imm_高通8916
+name: Build_imm_高通_8916
 
 on:
   repository_dispatch:

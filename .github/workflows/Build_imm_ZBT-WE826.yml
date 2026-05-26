@@ -41,12 +41,13 @@ jobs:
     - name: Free Disk Space (Ubuntu)
       uses: insightsengineering/disk-space-reclaimer@v1.1.2
       with:
-        remove-android: false
-        remove-dotnet: false
-        remove-haskell: false
-        remove-large-packages: false
-        remove-docker-images: false
-        remove-swap-storage: false
+        tool-cache: false
+        android: false
+        dotnet: false
+        haskell: false
+        large-packages: false
+        docker-images: false
+        swap-storage: false
 
     - name: space usage check  
       run: |

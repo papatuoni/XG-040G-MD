@@ -1,4 +1,4 @@
-name: Build_imm_ZBT-WE826
+name: Build_imm_ZBT_WE826
 
 on:
   repository_dispatch:

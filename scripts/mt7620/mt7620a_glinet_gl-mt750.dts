@@ -7,10 +7,6 @@
 	compatible = "glinet,gl-mt750", "ralink,mt7620a-soc";
 	model = "GL-MT750";
 
-	aliases {
-		label-mac-device = &wmac;
-	};
-
 	chosen {
 		bootargs = "console=ttyS0,115200";
 	};
@@ -97,8 +93,8 @@
 						reg = <0x8000 0x200>;
 					};
 
-					macaddr_factory_4000: macaddr@4000 {
-						reg = <0x4000 0x6>;
+					macaddr_factory_4: macaddr@4 {
+						reg = <0x4 0x6>;
 					};
 				};
 			};
@@ -112,20 +108,12 @@
 	};
 };
 
-&sdhci {
-	status = "okay";
-};
-
 &ehci {
 	status = "okay";
 };
 
-&ohci {
-	status = "okay";
-};
-
 &ethernet {
-	nvmem-cells = <&macaddr_factory_4000>;
+	nvmem-cells = <&macaddr_factory_4>;
 	nvmem-cell-names = "mac-address";
 
 	mediatek,portmap = "wllll";

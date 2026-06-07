@@ -1,4 +1,4 @@
-name: Build_open_gl-mt750
+name: Build_x-wrt_gl-mt750
 
 on:
   repository_dispatch:

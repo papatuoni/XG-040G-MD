@@ -1,0 +1,114 @@
+name: Build_HLK-7628N_1407_Final_Logic
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'ssh'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  CONFIG_FILE: 'config/hlk7628n.config'
+  REPO_URL: https://github.com/qizhushaonian/openwrt14.07
+  REPO_BRANCH: master
+  FEEDS_CONF: feeds.conf.default
+  DIY_P3_SH: diy-part3.sh
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Start Docker
+      run: |
+        docker run -dit --name mtk_builder -v $GITHUB_WORKSPACE:/work -w /work --privileged ubuntu:16.04 /bin/bash
+
+    - name: Init Environment
+      run: |
+        docker exec -t mtk_builder /bin/bash -c "
+          sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+          sed -i 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+          apt-get update
+          apt-get install -y sudo git wget curl build-essential locales python2.7 rsync unzip libncurses5-dev gawk gettext libssl-dev xsltproc flex bison gengetopt libxml2-dev intltool libelf-dev autoconf autoheader libtool
+          dpkg --add-architecture i386
+          apt-get update
+          apt-get install -y libncurses5:i386 libstdc++6:i386 zlib1g:i386 libc6:i386
+          ln -sf /bin/bash /bin/sh
+          useradd -u 1001 -m buildbot
+          echo 'buildbot ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+        "
+
+    - name: Clone Source Code
+      run: |
+        git clone "$REPO_URL" -b "$REPO_BRANCH" openwrt
+        sudo chown -R 1001:1001 openwrt
+
+    - name: DIY and Feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        [ -e $DIY_P3_SH ] && chmod +x $DIY_P3_SH && ./$DIY_P3_SH
+        docker exec -t --user buildbot mtk_builder /bin/bash -c "
+          cd openwrt
+          ./scripts/feeds update -a || true
+          ./scripts/feeds install -a -f || true
+         Bryan "
+
+    - name: Configuration
+      run: |
+        [ -e $CONFIG_FILE ] && cp -fv $CONFIG_FILE openwrt/.config
+        docker exec -t --user buildbot mtk_builder /bin/bash -c "
+          cd openwrt
+          make defconfig
+        "
+
+    - name: SSH Debug
+      uses: mxschmitt/action-tmate@v3
+      if: ${{ inputs.ssh }}
+
+    - name: Download
+      run: |
+        docker exec -t --user buildbot mtk_builder /bin/bash -c "
+          cd openwrt
+          make download -j8
+          find dl -size -1024c -delete
+        "
+
+    - name: Compile
+      id: compile
+      run: |
+        docker exec -t --user buildbot mtk_builder /bin/bash -c "
+          cd openwrt
+          make -j1 V=s
+        "
+        echo "status=success" >> $GITHUB_OUTPUT
+
+    - name: Organize Files
+      id: organize
+      if: steps.compile.outputs.status == 'success'
+      run: |
+        mkdir -p publish
+        find openwrt/bin/ramips/ -type f -name "*.bin" | xargs -I {} cp {} publish/
+        echo "FIRMWARE=$PWD/publish" >> $GITHUB_ENV
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      if: steps.compile.outputs.status == 'success'
+      with:
+        name: HLK7628N_1407_Firmware
+        path: publish/*
+
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      if: steps.compile.outputs.status == 'success'
+      with:
+        tag: "HLK7628N-1407-${{ github.run_id }}"
+        artifacts: publish/*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        body: "Built in Docker Ubuntu 16.04"

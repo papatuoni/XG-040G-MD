@@ -32,7 +32,7 @@ on:
 
 env:
   CONFIG_FILE: "config/040.config"
-  REPO_URL: https://github.com/papatuoni/bingoguo93-immortalwrt
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   DIY_P4_SH: diy-part4.sh
